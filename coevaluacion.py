@@ -5,20 +5,24 @@ import requests
 # === CAMBIA SOLO ESTA LÍNEA CON TU URL DE SHEETDB.IO ===
 SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs "
 
+# Contraseña del docente
 CLAVE_DOCENTE = "docentejwts123"
 
+# Equipos y estudiantes predefinidos
 equipos_estudiantes = {
     "Equipo 1": ["Raul Olaechea", "Fressia", "Paola Errea"],
     "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
     "Equipo 3": ["Alessandra Lavado", "Ericsson Castro", "Antonio Monzón", "Elisabeth Chamorro"],
-    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García","José Tipacti"]
+    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García", "José Tipacti"]
 }
 
+# Función para guardar evaluación
 def guardar_evaluacion(datos):
     payload = {"data": datos}
     response = requests.post(SHEETDB_API_URL, json=payload)
     return response.status_code == 200
 
+# Función para obtener todas las evaluaciones
 def obtener_evaluaciones():
     response = requests.get(SHEETDB_API_URL)
     if response.status_code == 200:
@@ -26,7 +30,7 @@ def obtener_evaluaciones():
     else:
         return pd.DataFrame()
 
-# Interfaz principal (código igual al usado antes)
+# Interfaz principal
 st.title("🎓 Aplicación de Coevaluación Grupal")
 
 modo = st.sidebar.selectbox("Seleccione modo", ["Estudiante", "Docente"])
@@ -58,8 +62,10 @@ if modo == "Estudiante":
                         "Evaluador": evaluador,
                         "Nota": nota
                     })
-                guardar_evaluacion(datos)
-                st.success("✅ Evaluación enviada correctamente.")
+                if guardar_evaluacion(datos):
+                    st.success("✅ Evaluación enviada correctamente.")
+                else:
+                    st.error("❌ Hubo un error al guardar los datos.")
 
 elif modo == "Docente":
     st.header("🔐 Acceso al Modo Docente")
@@ -71,41 +77,37 @@ elif modo == "Docente":
             st.error("Contraseña incorrecta.")
 
     if st.session_state.get("acceso_docente", False):
-    	st.success("🔓 Acceso concedido al modo docente.")
+        st.success("🔓 Acceso concedido al modo docente.")
 
-    	try:
-        	df = pd.read_excel(ARCHIVO_EXCEL, sheet_name="Evaluaciones")
-    	except Exception as e:
-        	st.error("Error al leer el archivo Excel.")
-        	df = pd.DataFrame()
+        df = obtener_evaluaciones()
 
-    	if df.empty:
-        	st.info("No hay evaluaciones registradas aún.")
-    	else:
-        	st.subheader("Todas las Evaluaciones")
-        	st.dataframe(df)
+        if df.empty:
+            st.info("No hay evaluaciones registradas aún.")
+        else:
+            st.subheader("Todas las Evaluaciones")
+            st.dataframe(df)
 
-        	st.subheader("Promedio por Estudiante")
+            st.subheader("Promedio por Estudiante")
 
-        	# Calcular promedio por estudiante (escala 0-20)
-        	promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
-        	promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
+            # Calcular promedio por estudiante (escala 0-20)
+            promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
+            promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
 
-        	# Calcular factor de ajuste (promedio / 20)
-        	promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
+            # Calcular factor de ajuste (promedio / 20)
+            promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
 
-        	# Mostrar tabla con ambos valores
-        	st.dataframe(promedios)
+            # Mostrar tabla con ambos valores
+            st.dataframe(promedios)
 
-        	st.download_button(
-            		label="📥 Descargar datos",
-            		data=open(ARCHIVO_EXCEL, "rb").read(),
-            		file_name="coevaluaciones.xlsx",
-            		mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        	)
+            st.download_button(
+                label="📥 Descargar datos como CSV",
+                data=promedios.to_csv(index=False),
+                file_name="promedios_coevaluacion.csv",
+                mime="text/csv"
+            )
 
-        	if st.button("Cerrar Sesión"):
-            		st.session_state["acceso_docente"] = False
-            		st.experimental_rerun()
+            if st.button("Cerrar Sesión"):
+                st.session_state["acceso_docente"] = False
+                st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
