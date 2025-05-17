@@ -21,7 +21,14 @@ def guardar_evaluacion(datos):
         st.error(f"🚫 Error técnico: {response.text}")
         return False
     return True
-
+    
+def ya_ha_enviado(evaluador, equipo):
+    url = f"{SHEETDB_API_URL}?search=Evaluador='{evaluador}' AND Equipo='{equipo}'"
+    response = requests.get(url)
+    if response.status_code == 200 and len(response.json()) > 0:
+        return True
+    return False
+    
 def obtener_evaluaciones():
     response = requests.get(SHEETDB_API_URL)
     if response.status_code == 200:
