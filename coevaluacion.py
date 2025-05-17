@@ -3,34 +3,32 @@ import pandas as pd
 import requests
 
 # === CAMBIA SOLO ESTA LÍNEA CON TU URL DE SHEETDB.IO ===
-SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
+SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"  # ← Corregido: sin espacio al final
 
-# Contraseña del docente
 CLAVE_DOCENTE = "docentejwts123"
 
-# Equipos y estudiantes predefinidos
 equipos_estudiantes = {
     "Equipo 1": ["Raul Olaechea", "Fressia", "Paola Errea"],
     "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
     "Equipo 3": ["Alessandra Lavado", "Ericsson Castro", "Antonio Monzón", "Elisabeth Chamorro"],
-    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García", "José Tipacti"]
+    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García","José Tipacti"]
 }
 
-# Función para guardar evaluación
 def guardar_evaluacion(datos):
     payload = {"data": datos}
     response = requests.post(SHEETDB_API_URL, json=payload)
+    if response.status_code != 200:
+        st.error(f"🚫 Error técnico: {response.text}")
     return response.status_code == 200
 
-# Función para obtener todas las evaluaciones
 def obtener_evaluaciones():
     response = requests.get(SHEETDB_API_URL)
     if response.status_code == 200:
         return pd.DataFrame(response.json())
     else:
+        st.error("❌ No se pudo cargar desde SheetDB.")
         return pd.DataFrame()
 
-# Interfaz principal
 st.title("🎓 Aplicación de Coevaluación Grupal")
 
 modo = st.sidebar.selectbox("Seleccione modo", ["Estudiante", "Docente"])
@@ -65,7 +63,7 @@ if modo == "Estudiante":
                 if guardar_evaluacion(datos):
                     st.success("✅ Evaluación enviada correctamente.")
                 else:
-                    st.error("❌ Hubo un error al guardar los datos.")
+                    st.warning("⚠️ Inténtalo nuevamente.")
 
 elif modo == "Docente":
     st.header("🔐 Acceso al Modo Docente")
@@ -89,14 +87,10 @@ elif modo == "Docente":
 
             st.subheader("Promedio por Estudiante")
 
-            # Calcular promedio por estudiante (escala 0-20)
             promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
             promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
-
-            # Calcular factor de ajuste (promedio / 20)
             promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
 
-            # Mostrar tabla con ambos valores
             st.dataframe(promedios)
 
             st.download_button(
