@@ -1,31 +1,12 @@
 import streamlit as st
 import pandas as pd
-import os
-from openpyxl import Workbook, load_workbook
-from openpyxl.utils.dataframe import dataframe_to_rows
+import requests
 
-# Configuración del archivo Excel
-ARCHIVO_EXCEL = "coevaluaciones.xlsx"
+# === CAMBIA SOLO ESTA LÍNEA CON TU URL DE SHEETDB.IO ===
+SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs "
 
-# Crear archivo Excel si no existe
-if not os.path.exists(ARCHIVO_EXCEL):
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Evaluaciones"
-    ws.append(["Equipo", "Estudiante", "Evaluador", "Nota"])
-    wb.save(ARCHIVO_EXCEL)
+CLAVE_DOCENTE = "docentejwts123"
 
-# Función para guardar evaluaciones
-def guardar_evaluacion(datos):
-    df_nuevos = pd.DataFrame(datos)
-    book = load_workbook(ARCHIVO_EXCEL)
-    writer = pd.ExcelWriter(ARCHIVO_EXCEL, engine='openpyxl', mode='a', if_sheet_exists='overlay')
-    df_existente = pd.read_excel(ARCHIVO_EXCEL, sheet_name="Evaluaciones")
-    df_final = pd.concat([df_existente, df_nuevos], ignore_index=True)
-    df_final.to_excel(writer, sheet_name="Evaluaciones", index=False)
-    writer.close()
-
-# Datos predefinidos de equipos y estudiantes
 equipos_estudiantes = {
     "Equipo 1": ["Raul Olaechea", "Fressia", "Paola Errea"],
     "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
@@ -33,10 +14,19 @@ equipos_estudiantes = {
     "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García","José Tipacti"]
 }
 
-# Contraseña del docente
-CLAVE_DOCENTE = "docentejwts123"
+def guardar_evaluacion(datos):
+    payload = {"data": datos}
+    response = requests.post(SHEETDB_API_URL, json=payload)
+    return response.status_code == 200
 
-# Interfaz principal
+def obtener_evaluaciones():
+    response = requests.get(SHEETDB_API_URL)
+    if response.status_code == 200:
+        return pd.DataFrame(response.json())
+    else:
+        return pd.DataFrame()
+
+# Interfaz principal (código igual al usado antes)
 st.title("🎓 Aplicación de Coevaluación Grupal")
 
 modo = st.sidebar.selectbox("Seleccione modo", ["Estudiante", "Docente"])
