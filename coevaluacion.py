@@ -46,10 +46,7 @@ if modo == "Estudiante":
 
     equipo_seleccionado = st.selectbox("Selecciona tu equipo", options=list(equipos_estudiantes.keys()))
 
-    if modo == "Estudiante":
-    st.header("📝 Formulario de Coevaluación")
-
-    equipo_seleccionado = st.selectbox("Selecciona tu equipo", options=list(equipos_estudiantes.keys()))
+    
 
     if equipo_seleccionado:
         integrantes = equipos_estudiantes[equipo_seleccionado]
