@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 
 # === CAMBIA SOLO ESTA LÍNEA CON TU URL DE SHEETDB.IO ===
-SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs "
+SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
 
 # Contraseña del docente
 CLAVE_DOCENTE = "docentejwts123"
