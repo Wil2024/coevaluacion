@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 
 # === CAMBIA SOLO ESTA LÍNEA CON TU URL DE SHEETDB.IO ===
-SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"  # ← Corregido: sin espacio al final
+SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs "  # ← Sin espacio al final
 
 CLAVE_DOCENTE = "docentejwts123"
 
@@ -11,15 +11,16 @@ equipos_estudiantes = {
     "Equipo 1": ["Raul Olaechea", "Fressia", "Paola Errea"],
     "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
     "Equipo 3": ["Alessandra Lavado", "Ericsson Castro", "Antonio Monzón", "Elisabeth Chamorro"],
-    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García","José Tipacti"]
+    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García", "José Tipacti"]
 }
 
 def guardar_evaluacion(datos):
     payload = {"data": datos}
     response = requests.post(SHEETDB_API_URL, json=payload)
-    if response.status_code != 200:
+    if response.status_code not in [200, 201]:
         st.error(f"🚫 Error técnico: {response.text}")
-    return response.status_code == 200
+        return False
+    return True
 
 def obtener_evaluaciones():
     response = requests.get(SHEETDB_API_URL)
@@ -63,7 +64,7 @@ if modo == "Estudiante":
                 if guardar_evaluacion(datos):
                     st.success("✅ Evaluación enviada correctamente.")
                 else:
-                    st.warning("⚠️ Inténtalo nuevamente.")
+                    st.warning("⚠️ Hubo un problema al enviar los datos.")
 
 elif modo == "Docente":
     st.header("🔐 Acceso al Modo Docente")
