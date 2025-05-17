@@ -8,7 +8,7 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"  # ← Sin espacio a
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Equipo 1": ["Raul Olaechea", "Fressia", "Paola Errea"],
+    "Equipo 1": ["Raul Olaechea", "Fressia", "Paola Errea","Christian Zapata"],
     "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
     "Equipo 3": ["Alessandra Lavado", "Ericsson Castro", "Antonio Monzón", "Elisabeth Chamorro"],
     "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García", "José Tipacti"]
