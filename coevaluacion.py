@@ -76,33 +76,41 @@ elif modo == "Docente":
             st.error("Contraseña incorrecta.")
 
     if st.session_state.get("acceso_docente", False):
-        st.success("🔓 Acceso concedido al modo docente.")
+    st.success("🔓 Acceso concedido al modo docente.")
 
-        df = obtener_evaluaciones()
+    df = obtener_evaluaciones()
 
-        if df.empty:
-            st.info("No hay evaluaciones registradas aún.")
-        else:
-            st.subheader("Todas las Evaluaciones")
-            st.dataframe(df)
+    if df.empty:
+        st.info("No hay evaluaciones registradas aún.")
+    else:
+        st.subheader("Todas las Evaluaciones")
+        st.dataframe(df)
 
-            st.subheader("Promedio por Estudiante")
+        st.subheader("Promedio por Estudiante")
 
-            promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
-            promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
-            promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
+        # Convertir 'Nota' a tipo numérico (por si viene como string)
+        df['Nota'] = pd.to_numeric(df['Nota'], errors='coerce')
 
-            st.dataframe(promedios)
+        # Calcular promedio
+        promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
+        promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
 
-            st.download_button(
-                label="📥 Descargar datos como CSV",
-                data=promedios.to_csv(index=False),
-                file_name="promedios_coevaluacion.csv",
-                mime="text/csv"
-            )
+        # Factor de ajuste
+        promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
 
-            if st.button("Cerrar Sesión"):
-                st.session_state["acceso_docente"] = False
-                st.experimental_rerun()
+        st.dataframe(promedios)
+
+        st.download_button(
+            label="📥 Descargar datos como CSV",
+            data=promedios.to_csv(index=False),
+            file_name="promedios_coevaluacion.csv",
+            mime="text/csv"
+        )
+
+        if st.button("Cerrar Sesión"):
+            st.session_state["acceso_docente"] = False
+            st.experimental_rerun()
+else:
+    st.info("Esperando contraseña...")
     else:
         st.info("Esperando contraseña...")
