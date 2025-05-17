@@ -75,7 +75,7 @@ elif modo == "Docente":
         else:
             st.error("Contraseña incorrecta.")
 
-    if st.session_state.get("acceso_docente", False):
+if st.session_state.get("acceso_docente", False):
     st.success("🔓 Acceso concedido al modo docente.")
 
     df = obtener_evaluaciones()
