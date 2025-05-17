@@ -55,9 +55,9 @@ if modo == "Estudiante":
         # Verificar si ya ha enviado antes
         #if ya_ha_enviado(evaluador, equipo_seleccionado):
         #    st.warning("❗ Ya has enviado tu coevaluación anteriormente.")
-        else:
-            st.write("### Califica a cada compañero (incluyéndote):")
-            notas = {}
+       # else:
+        #    st.write("### Califica a cada compañero (incluyéndote):")
+        #    notas = {}
             for nombre in integrantes:
                 nota = st.slider(f"Nota para {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"nota_{nombre}")
                 notas[nombre] = nota
