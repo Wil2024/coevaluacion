@@ -53,8 +53,8 @@ if modo == "Estudiante":
         evaluador = st.selectbox("Tu Nombre", options=integrantes)
 
         # Verificar si ya ha enviado antes
-        if ya_ha_enviado(evaluador, equipo_seleccionado):
-            st.warning("❗ Ya has enviado tu coevaluación anteriormente.")
+        #if ya_ha_enviado(evaluador, equipo_seleccionado):
+        #    st.warning("❗ Ya has enviado tu coevaluación anteriormente.")
         else:
             st.write("### Califica a cada compañero (incluyéndote):")
             notas = {}
