@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 
 # === CAMBIA SOLO ESTA LÍNEA CON TU URL DE SHEETDB.IO ===
-SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs "  # ← Sin espacio al final
+SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"  # ← Sin espacio al final
 
 CLAVE_DOCENTE = "docentejwts123"
 
@@ -75,42 +75,40 @@ elif modo == "Docente":
         else:
             st.error("Contraseña incorrecta.")
 
-if st.session_state.get("acceso_docente", False):
-    st.success("🔓 Acceso concedido al modo docente.")
+    if st.session_state.get("acceso_docente", False):
+        st.success("🔓 Acceso concedido al modo docente.")
 
-    df = obtener_evaluaciones()
+        df = obtener_evaluaciones()
 
-    if df.empty:
-        st.info("No hay evaluaciones registradas aún.")
-    else:
-        st.subheader("Todas las Evaluaciones")
-        st.dataframe(df)
+        if df.empty:
+            st.info("No hay evaluaciones registradas aún.")
+        else:
+            st.subheader("Todas las Evaluaciones")
+            st.dataframe(df)
 
-        st.subheader("Promedio por Estudiante")
+            st.subheader("Promedio por Estudiante")
 
-        # Convertir 'Nota' a tipo numérico (por si viene como string)
-        df['Nota'] = pd.to_numeric(df['Nota'], errors='coerce')
+            # Convertir 'Nota' a tipo numérico (por si viene como string)
+            df['Nota'] = pd.to_numeric(df['Nota'], errors='coerce')
 
-        # Calcular promedio
-        promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
-        promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
+            # Calcular promedio
+            promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
+            promedios.rename(columns={"Nota": "Nota Promedio"}, inplace=True)
 
-        # Factor de ajuste
-        promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
+            # Factor de ajuste
+            promedios["Factor Ajuste"] = (promedios["Nota Promedio"] / 20).round(2)
 
-        st.dataframe(promedios)
+            st.dataframe(promedios)
 
-        st.download_button(
-            label="📥 Descargar datos como CSV",
-            data=promedios.to_csv(index=False),
-            file_name="promedios_coevaluacion.csv",
-            mime="text/csv"
-        )
+            st.download_button(
+                label="📥 Descargar datos como CSV",
+                data=promedios.to_csv(index=False),
+                file_name="promedios_coevaluacion.csv",
+                mime="text/csv"
+            )
 
-        if st.button("Cerrar Sesión"):
-            st.session_state["acceso_docente"] = False
-            st.experimental_rerun()
-else:
-    st.info("Esperando contraseña...")
+            if st.button("Cerrar Sesión"):
+                st.session_state["acceso_docente"] = False
+                st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
