@@ -39,32 +39,41 @@ if modo == "Estudiante":
 
     equipo_seleccionado = st.selectbox("Selecciona tu equipo", options=list(equipos_estudiantes.keys()))
 
+    if modo == "Estudiante":
+    st.header("📝 Formulario de Coevaluación")
+
+    equipo_seleccionado = st.selectbox("Selecciona tu equipo", options=list(equipos_estudiantes.keys()))
+
     if equipo_seleccionado:
         integrantes = equipos_estudiantes[equipo_seleccionado]
         evaluador = st.selectbox("Tu Nombre", options=integrantes)
 
-        st.write("### Califica a cada compañero (incluyéndote):")
-        notas = {}
-        for nombre in integrantes:
-            nota = st.slider(f"Nota para {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"nota_{nombre}")
-            notas[nombre] = nota
+        # Verificar si ya ha enviado antes
+        if ya_ha_enviado(evaluador, equipo_seleccionado):
+            st.warning("❗ Ya has enviado tu coevaluación anteriormente.")
+        else:
+            st.write("### Califica a cada compañero (incluyéndote):")
+            notas = {}
+            for nombre in integrantes:
+                nota = st.slider(f"Nota para {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"nota_{nombre}")
+                notas[nombre] = nota
 
-        if st.button("Enviar Evaluación"):
-            if not notas.get(evaluador):
-                st.error("Debes calificarte a ti mismo.")
-            else:
-                datos = []
-                for estudiante, nota in notas.items():
-                    datos.append({
-                        "Equipo": equipo_seleccionado,
-                        "Estudiante": estudiante,
-                        "Evaluador": evaluador,
-                        "Nota": nota
-                    })
-                if guardar_evaluacion(datos):
-                    st.success("✅ Evaluación enviada correctamente.")
+            if st.button("Enviar Evaluación"):
+                if not notas.get(evaluador):
+                    st.error("Debes calificarte a ti mismo.")
                 else:
-                    st.warning("⚠️ Hubo un problema al enviar los datos.")
+                    datos = []
+                    for estudiante, nota in notas.items():
+                        datos.append({
+                            "Equipo": equipo_seleccionado,
+                            "Estudiante": estudiante,
+                            "Evaluador": evaluador,
+                            "Nota": nota
+                        })
+                    if guardar_evaluacion(datos):
+                        st.success("✅ Evaluación enviada correctamente.")
+                    else:
+                        st.warning("⚠️ Hubo un problema al enviar los datos.")
 
 elif modo == "Docente":
     st.header("🔐 Acceso al Modo Docente")
