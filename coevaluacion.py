@@ -39,7 +39,7 @@ modo = st.sidebar.selectbox("Seleccione modo", ["Estudiante", "Docente"])
 if modo == "Estudiante":
     st.header("📝 Formulario de Coevaluación")
 
-    equipo_seleccionado = st.selectbox("Este formulario permitirá ajustar la nota grupal según el aporte de cada integrante de tu equipo", options=list(equipos_estudiantes.keys()))
+    equipo_seleccionado = st.selectbox("Este formulario permitirá ajustar la nota grupal según el aporte de cada integrante de tu equipo:", options=list(equipos_estudiantes.keys()))
 
     if equipo_seleccionado:
         integrantes = equipos_estudiantes[equipo_seleccionado]
@@ -114,6 +114,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
