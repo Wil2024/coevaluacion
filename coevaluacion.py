@@ -8,7 +8,7 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"  # ← Sin espacio a
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Equipo 1": ["ALVAREZ NUÑEZ CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA","ROBLES VICTORIA PAMELA KARLA"],
+    "Equipo 1": ["Selecciona tu nombre:","ALVAREZ NUÑEZ CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA","ROBLES VICTORIA PAMELA KARLA"],
     "Equipo 2": ["CALIXTO VILLACORTA JONNATHAN","SANTANA YANA SAMUEL JOSE","GONZALES CHAFLOQUE LEYLA JENNIFER", "GONZALES RODRIGUEZ ERIKA VANESSA", "CASTRO BALBOA HEYDA ADELAIDA"],
     "Equipo 3": ["TEJADA CABREJOS FERNANDO", "OSORIO ANYOZA	 RENZO ESTEBAN", "NUÑEZ SANCHO LUIYE ESTHIP", "MOYA CONTRERAS GULIANNA"],
     "Equipo 4": ["Davila Torres Karen", "Sempertegui Flores Natali", "Tarazona Montero Luis","Vivas Gonzales Samby"],
@@ -42,7 +42,7 @@ if modo == "Estudiante":
 
     if equipo_seleccionado:
         integrantes = equipos_estudiantes[equipo_seleccionado]
-        evaluador = st.selectbox("Selecciona tu nombre", options=integrantes)
+        evaluador = st.selectbox("Selecciona tu nombre:", options=integrantes)
 
         st.write("### Califica a cada compañero de tu equipo (incluyéndote):")
         notas = {}
@@ -102,10 +102,10 @@ elif modo == "Docente":
             st.dataframe(promedios)
 
             st.download_button(
-                label="📥 Descargar datos como CSV",
-                data=promedios.to_csv(index=False),
-                file_name="promedios_coevaluacion.csv",
-                mime="text/csv"
+                label="📥 Descargar datos como EXCEL",
+                data=promedios.to_excel(index=False),
+                file_name="promedios_coevaluacion.xlsx",
+                mime="text/xlsx"
             )
 
             if st.button("Cerrar Sesión"):
@@ -113,6 +113,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
