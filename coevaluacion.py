@@ -47,7 +47,7 @@ if modo == "Estudiante":
 
         st.write("### Califica a cada compañero de tu equipo (incluyéndote):")
         notas = {}
-        for nombre in integrantes:
+        for nombre in integrantes[1:]
             nota = st.slider(f"Nota para {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"nota_{nombre}")
             notas[nombre] = nota
 
@@ -114,6 +114,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
