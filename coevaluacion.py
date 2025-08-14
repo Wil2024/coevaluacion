@@ -42,8 +42,8 @@ if modo == "Estudiante":
     equipo_seleccionado = st.selectbox("Este formulario permitirá ajustar la nota grupal según el aporte de cada integrante de tu equipo:", options=list(equipos_estudiantes.keys()))
 
     if equipo_seleccionado:
-        integrantes = equipos_estudiantes[equipo_seleccionado+1:]
-        evaluador = st.selectbox("", options=integrantes)
+        integrantes = equipos_estudiantes[equipo_seleccionado]
+        evaluador = st.selectbox("", options=integrantes[1:])
 
         st.write("### Califica a cada compañero de tu equipo (incluyéndote):")
         notas = {}
@@ -114,6 +114,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
