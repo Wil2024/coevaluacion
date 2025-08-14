@@ -43,9 +43,9 @@ if modo == "Estudiante":
 
     if equipo_seleccionado:
         integrantes = equipos_estudiantes[equipo_seleccionado]
-        evaluador = st.selectbox("Selecciona tu nombre", options=integrantes[1:])
+        evaluador = st.selectbox("Selecciona tu nombre;", options=integrantes[1:])
 
-        st.write("### Califica a cada compañero de tu equipo (incluyéndote):")
+        st.write("### Ahora, califica a cada compañero de tu equipo (incluyéndote):")
         notas = {}
         for nombre in integrantes[1:]:
             nota = st.slider(f"Nota para {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"nota_{nombre}")
@@ -114,6 +114,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
