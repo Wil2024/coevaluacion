@@ -8,8 +8,7 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"  # ← Sin espacio a
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Equipo 1": ["ALVAREZ NUÑEZ, CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA
-","ROBLES VICTORIA PAMELA KARLA"],
+    "Equipo 1": ["ALVAREZ NUÑEZ CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA","ROBLES VICTORIA PAMELA KARLA"],
     "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
     "Equipo 3": ["Alessandra Lavado", "Ericsson Castro", "Antonio Monzón", "Elisabeth Chamorro"],
     "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García", "José Tipacti"]
@@ -113,6 +112,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
