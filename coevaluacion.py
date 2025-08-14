@@ -9,9 +9,10 @@ CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
     "Equipo 1": ["ALVAREZ NUÑEZ CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA","ROBLES VICTORIA PAMELA KARLA"],
-    "Equipo 2": ["Fiorella Valdivia", "Karla Elescano", "Patricia Sinclair", "Mauricio Negrón"],
-    "Equipo 3": ["Alessandra Lavado", "Ericsson Castro", "Antonio Monzón", "Elisabeth Chamorro"],
-    "Equipo 4": ["Nina Llamoca", "Elcy Maguiña", "Melany Zevallos", "Javier García", "José Tipacti"]
+    "Equipo 2": ["CALIXTO VILLACORTA JONNATHAN","SANTANA YANA SAMUEL JOSE","GONZALES CHAFLOQUE LEYLA JENNIFER", "GONZALES RODRIGUEZ ERIKA VANESSA", "CASTRO BALBOA HEYDA ADELAIDA"],
+    "Equipo 3": ["TEJADA CABREJOS FERNANDO", "OSORIO ANYOZA	 RENZO ESTEBAN", "NUÑEZ SANCHO LUIYE ESTHIP", "MOYA CONTRERAS GULIANNA"],
+    "Equipo 4": ["Davila Torres Karen", "Sempertegui Flores Natali", "Tarazona Montero Luis","Vivas Gonzales Samby"],
+    "Equipo 5": ["Ramos Quispe 	Humberto Erick", "Panca Velasquez Kelly Susan", "Gamboa Espinoza Edwin Manuel","Zamora Quispe Gaby Daniela"]
 }
 
 def guardar_evaluacion(datos):
@@ -112,6 +113,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
