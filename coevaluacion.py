@@ -9,11 +9,11 @@ CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
     "Selecciona tu equipo":"Selecciona tu nombre",
-    "Equipo 1": ["","ALVAREZ NUÑEZ CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA","ROBLES VICTORIA PAMELA KARLA"],
-    "Equipo 2": ["Selecciona tu nombre", "CALIXTO VILLACORTA JONNATHAN","SANTANA YANA SAMUEL JOSE","GONZALES CHAFLOQUE LEYLA JENNIFER", "GONZALES RODRIGUEZ ERIKA VANESSA", "CASTRO BALBOA HEYDA ADELAIDA"],
-    "Equipo 3": ["Selecciona tu nombre", "TEJADA CABREJOS FERNANDO", "OSORIO ANYOZA	 RENZO ESTEBAN", "NUÑEZ SANCHO LUIYE ESTHIP", "MOYA CONTRERAS GULIANNA"],
-    "Equipo 4": ["Selecciona tu nombre","Davila Torres Karen", "Sempertegui Flores Natali", "Tarazona Montero Luis","Vivas Gonzales Samby"],
-    "Equipo 5": ["Selecciona tu nombre","Ramos Quispe 	Humberto Erick", "Panca Velasquez Kelly Susan", "Gamboa Espinoza Edwin Manuel","Zamora Quispe Gaby Daniela"]
+    "Equipo 1": ["ALVAREZ NUÑEZ CINTHYA LIZETH", "CASTILLO ESPINOZA JUAN EMILIO", "CUZCANO ROJAS JHONNY JOSE","GUEVARA AMARILLO JASMIN FABIOLA","ROBLES VICTORIA PAMELA KARLA"],
+    "Equipo 2": ["CALIXTO VILLACORTA JONNATHAN","SANTANA YANA SAMUEL JOSE","GONZALES CHAFLOQUE LEYLA JENNIFER", "GONZALES RODRIGUEZ ERIKA VANESSA", "CASTRO BALBOA HEYDA ADELAIDA"],
+    "Equipo 3": ["TEJADA CABREJOS FERNANDO", "OSORIO ANYOZA	 RENZO ESTEBAN", "NUÑEZ SANCHO LUIYE ESTHIP", "MOYA CONTRERAS GULIANNA"],
+    "Equipo 4": ["Davila Torres Karen", "Sempertegui Flores Natali", "Tarazona Montero Luis","Vivas Gonzales Samby"],
+    "Equipo 5": ["Ramos Quispe 	Humberto Erick", "Panca Velasquez Kelly Susan", "Gamboa Espinoza Edwin Manuel","Zamora Quispe Gaby Daniela"]
 }
 
 def guardar_evaluacion(datos):
@@ -114,6 +114,7 @@ elif modo == "Docente":
                 st.experimental_rerun()
     else:
         st.info("Esperando contraseña...")
+
 
 
 
