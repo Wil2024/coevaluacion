@@ -44,11 +44,11 @@ if modo == "Estudiante":
             st.session_state.enviado = False
             st.rerun()
     else:
-        equipo_seleccionado = st.selectbox("", options=list(equipos_estudiantes.keys()))
+        equipo_seleccionado = st.selectbox("Equipo:", options=list(equipos_estudiantes.keys()))
 
         if equipo_seleccionado:
             integrantes = equipos_estudiantes[equipo_seleccionado]
-            evaluador = st.selectbox("Tu Nombre", options=integrantes)
+            evaluador = st.selectbox("Nombre:", options=integrantes)
 
             st.write("### Califica a cada compañero (incluyéndote):")
             notas = {}
