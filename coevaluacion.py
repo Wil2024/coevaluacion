@@ -7,7 +7,7 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Selecciona tu equipo:":[],
+    "Selecciona tu equipo":[],
     "Equipo 1": ["Selecciona tu nombre", "Deans Cabrera", "Miguel Herrera", "Eleana Navio", "Deisy Salazar", "Gianfranco Vaccari"],
     "Equipo 2": ["Daniel Pinedo", "Jorge Acero", "Milagro Molina", "Sergio Valencia", "Yoseff Vilcapoma"],
     "Equipo 3": ["Andrés Álvarez", "Jacklyn Beraún", "Oscar Garnique", "Rafael Marca", "Nohelia Tang", "Jessica Timana"]
@@ -44,7 +44,7 @@ if modo == "Estudiante":
             st.session_state.enviado = False
             st.rerun()
     else:
-        equipo_seleccionado = st.selectbox("Selecciona tu equipo:", options=list(equipos_estudiantes.keys()))
+        equipo_seleccionado = st.selectbox("", options=list(equipos_estudiantes.keys()))
 
         if equipo_seleccionado:
             integrantes = equipos_estudiantes[equipo_seleccionado]
