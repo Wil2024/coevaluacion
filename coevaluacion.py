@@ -7,8 +7,8 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Selecciona tu equipo":[],
-    "Equipo 1": [ "Deans Cabrera", "Miguel Herrera", "Eleana Navio", "Deisy Salazar", "Gianfranco Vaccari"],
+    "Selecciona tu equipo": [],
+    "Equipo 1": ["Deans Cabrera", "Miguel Herrera", "Eleana Navio", "Deisy Salazar", "Gianfranco Vaccari"],
     "Equipo 2": ["Daniel Pinedo", "Jorge Acero", "Milagro Molina", "Sergio Valencia", "Yoseff Vilcapoma"],
     "Equipo 3": ["Andrés Álvarez", "Jacklyn Beraún", "Oscar Garnique", "Rafael Marca", "Nohelia Tang", "Jessica Timana"]
 }
@@ -19,13 +19,16 @@ def guardar_evaluacion(datos):
     return response.status_code == 201 or response.status_code == 200
 
 def obtener_evaluaciones():
-    response = requests.get(SHEETDB_API_URL)
-    if response.status_code == 200:
-        return pd.DataFrame(response.json())
-    else:
+    try:
+        response = requests.get(SHEETDB_API_URL)
+        if response.status_code == 200:
+            return pd.DataFrame(response.json())
+        return pd.DataFrame()
+    except:
         return pd.DataFrame()
 
 # Interfaz principal
+st.set_page_config(page_title="Sistema de Coevaluación", layout="centered")
 st.title("🎓 Aplicación de Coevaluación Grupal")
 
 modo = st.sidebar.selectbox("Seleccione modo", ["Estudiante", "Docente"])
@@ -33,89 +36,94 @@ modo = st.sidebar.selectbox("Seleccione modo", ["Estudiante", "Docente"])
 if modo == "Estudiante":
     st.header("📝 Formulario de Coevaluación")
 
-    # 1. Inicializar el estado de envío para evitar duplicados
-    if "enviado" not in st.session_state:
-        st.session_state.enviado = False
+    # Selección de Equipo
+    equipo_seleccionado = st.selectbox("1. Selecciona tu equipo", options=["Seleccionar..."] + list(equipos_estudiantes.keys()))
 
-    # 2. Si ya se envió, ocultamos el formulario y mostramos mensaje
-    if st.session_state.enviado:
-        st.success("✅ Evaluación enviada correctamente. Gracias por participar.")
-        if st.button("Enviar otra respuesta"):
-            st.session_state.enviado = False
-            st.rerun()
-    else:
-        equipo_seleccionado = st.selectbox("Equipo:", options=list(equipos_estudiantes.keys()))
+    if equipo_seleccionado != "Seleccionar...":
+        integrantes = equipos_estudiantes[equipo_seleccionado]
+        evaluador = st.selectbox("2. Selecciona tu Nombre (Evaluador)", options=["Seleccionar..."] + integrantes)
 
-        if equipo_seleccionado:
-            integrantes = equipos_estudiantes[equipo_seleccionado]
-            evaluador = st.selectbox("Nombre:", options=integrantes)
+        if evaluador != "Seleccionar...":
+            # --- VALIDACIÓN DE DUPLICADOS EN TIEMPO REAL ---
+            with st.spinner("Verificando si ya enviaste tu evaluación..."):
+                df_registros = obtener_evaluaciones()
+            
+            ya_envio = False
+            if not df_registros.empty and "Evaluador" in df_registros.columns:
+                # Comprobar si el nombre ya figura como evaluador
+                if evaluador in df_registros["Evaluador"].values:
+                    ya_envio = True
 
-            st.write("### Califica a cada compañero (incluyéndote):")
-            notas = {}
-            for nombre in integrantes:
-                nota = st.slider(f"Nota para {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"nota_{nombre}")
-                notas[nombre] = nota
+            if ya_envio:
+                st.error(f"🚫 Lo sentimos, {evaluador}. Ya existe un registro de coevaluación bajo tu nombre.")
+                st.info("Para mantener la integridad de los promedios, solo se permite un envío por estudiante.")
+            else:
+                # Mostrar formulario solo si no ha enviado antes
+                st.success(f"Bienvenido {evaluador}. Puedes proceder a calificar a tu equipo.")
+                st.write("---")
+                
+                notas = {}
+                for nombre in integrantes:
+                    nota = st.slider(f"Nota para: {nombre}", 0.0, 20.0, 10.0, 0.5, key=f"user_{nombre}")
+                    notas[nombre] = nota
 
-            # El botón de enviar
-            if st.button("Enviar Evaluación"):
-                if not notas.get(evaluador):
-                    st.error("Debes calificarte a ti mismo.")
-                else:
-                    datos = []
+                # Botón de envío
+                if st.button("🚀 Enviar Evaluaciones"):
+                    datos_a_enviar = []
                     for estudiante, nota in notas.items():
-                        datos.append({
+                        datos_a_enviar.append({
                             "Equipo": equipo_seleccionado,
                             "Estudiante": estudiante,
                             "Evaluador": evaluador,
                             "Nota": nota
                         })
                     
-                    if guardar_evaluacion(datos):
-                        st.session_state.enviado = True
-                        st.rerun()
+                    if guardar_evaluacion(datos_a_enviar):
+                        st.balloons()
+                        st.success("✅ Evaluación registrada con éxito. Ya puedes cerrar esta página.")
+                        # Al recargar, la validación de arriba detectará el nuevo registro y bloqueará el botón
+                        st.button("Finalizar") 
                     else:
-                        st.error("Error al enviar los datos. Inténtalo de nuevo.")
+                        st.error("Hubo un error de conexión con el servidor. Intenta de nuevo.")
 
 elif modo == "Docente":
-    st.header("🔐 Acceso al Modo Docente")
+    st.header("🔐 Acceso Administrativo")
     
-    if "acceso_docente" not in st.session_state:
-        st.session_state["acceso_docente"] = False
+    if "docente_auth" not in st.session_state:
+        st.session_state.docente_auth = False
 
-    if not st.session_state["acceso_docente"]:
-        clave_ingresada = st.text_input("Ingrese la contraseña", type="password")
-        if st.button("Ingresar"):
-            if clave_ingresada == CLAVE_DOCENTE:
-                st.session_state["acceso_docente"] = True
+    if not st.session_state.docente_auth:
+        pass_input = st.text_input("Contraseña de docente", type="password")
+        if st.button("Acceder"):
+            if pass_input == CLAVE_DOCENTE:
+                st.session_state.docente_auth = True
                 st.rerun()
             else:
-                st.error("Contraseña incorrecta.")
+                st.error("Contraseña incorrecta")
     else:
-        st.success("🔓 Acceso concedido.")
-        
-        # Corregido: Obtener datos de la API en lugar de un archivo Excel local
-        df = obtener_evaluaciones()
+        st.subheader("Resultados de Coevaluación")
+        df_final = obtener_evaluaciones()
 
-        if df.empty:
-            st.info("No hay evaluaciones registradas aún.")
-        else:
-            st.subheader("Todas las Evaluaciones")
-            st.dataframe(df)
-
-            st.subheader("Promedio por Estudiante")
-            df["Nota"] = pd.to_numeric(df["Nota"])
-            promedios = df.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
-            promedios["Factor Ajuste"] = (promedios["Nota"] / 20).round(2)
-            st.dataframe(promedios)
+        if not df_final.empty:
+            # Asegurar que la columna Nota sea numérica
+            df_final["Nota"] = pd.to_numeric(df_final["Nota"], errors='coerce')
+            
+            st.write("### Resumen por Estudiante")
+            # Agrupar por estudiante para obtener el promedio recibido de sus pares
+            resumen = df_final.groupby("Estudiante")["Nota"].mean().round(2).reset_index()
+            resumen.columns = ["Estudiante", "Promedio Recibido"]
+            resumen["Factor (0-1)"] = (resumen["Promedio Recibido"] / 20).round(2)
+            
+            st.dataframe(resumen, use_container_width=True)
+            
+            st.write("### Detalle de todas las votaciones")
+            st.dataframe(df_final)
 
             if st.button("Cerrar Sesión"):
-                st.session_state["acceso_docente"] = False
+                st.session_state.docente_auth = False
                 st.rerun()
-
-
-
-
-
+        else:
+            st.info("Aún no hay datos registrados en el sistema.")
 
 
 
