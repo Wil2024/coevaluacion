@@ -94,7 +94,7 @@ if modo == "👨‍🎓 Modo Estudiante":
                 with st.form("form_notas"):
                     notas = {}
                     for nombre in integrantes:
-                        notas[nombre] = st.slider(f"🌟 Desempeño de {nombre}", min_value=0.0, max_value=20.0, value=0.5, step=0.5)
+                        notas[nombre] = st.slider(f"🌟 Desempeño de {nombre}", min_value=0.0, max_value=20.0, value=0.0, step=0.5)
                     
                     st.markdown("*(Recuerda que debes evaluarte a ti mismo con honestidad)*")
                     
