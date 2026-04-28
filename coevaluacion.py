@@ -7,8 +7,7 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Selecciona tu equipo": [],
-    "Equipo 1": ["Deans Cabrera", "Miguel Herrera", "Eleana Navio", "Deisy Salazar", "Gianfranco Vaccari"],
+        "Equipo 1": ["Deans Cabrera", "Miguel Herrera", "Eleana Navio", "Deisy Salazar", "Gianfranco Vaccari"],
     "Equipo 2": ["Daniel Pinedo", "Jorge Acero", "Milagro Molina", "Sergio Valencia", "Yoseff Vilcapoma"],
     "Equipo 3": ["Andrés Álvarez", "Jacklyn Beraún", "Oscar Garnique", "Rafael Marca", "Nohelia Tang", "Jessica Timana"]
 }
