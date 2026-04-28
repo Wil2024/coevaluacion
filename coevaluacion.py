@@ -58,7 +58,7 @@ if modo == "Estudiante":
                 st.info("Para mantener la integridad de los promedios, solo se permite un envío por estudiante.")
             else:
                 # Mostrar formulario solo si no ha enviado antes
-                st.success(f"Bienvenido {evaluador}. Puedes proceder a calificar a tu equipo.")
+                st.success(f"Bienvenido {evaluador}. Puedes proceder a calificar a tu equipo (incluyéndote).")
                 st.write("---")
                 
                 notas = {}
