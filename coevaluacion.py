@@ -63,7 +63,7 @@ if modo == "Estudiante":
                 
                 notas = {}
                 for nombre in integrantes:
-                    nota = st.slider(f"Nota para: {nombre}", 0.0, 20.0, 10.0, 0.5, key=f"user_{nombre}")
+                    nota = st.slider(f"Nota para: {nombre}", min_value=0.0, max_value=20.0, step=0.5, key=f"user_{nombre}")
                     notas[nombre] = nota
 
                 # Botón de envío
