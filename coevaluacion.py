@@ -9,9 +9,10 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Equipo 1": ["Deans Cabrera", "Miguel Herrera", "Eleana Navio", "Deisy Salazar", "Gianfranco Vaccari"],
-    "Equipo 2": ["Daniel Pinedo", "Jorge Acero", "Milagro Molina", "Sergio Valencia", "Yoseff Vilcapoma"],
-    "Equipo 3": ["Andrés Álvarez", "Jacklyn Beraún", "Oscar Garnique", "Rafael Marca", "Nohelia Tang", "Jessica Timana"]
+    "Equipo 1": ["VASQUEZ CHIROQUE,GERARDO", "CEPEDA ZAVALA,CARLOS OMAR", "ROQUE CAMAVILCA,SOFIA LIZ", "DILAS AGUILAR,KATHERINE SELENE", "FERNANDEZ SILVA,JOSÉ ENRRIQUE"],
+    "Equipo 2": ["FARFAN CORDOVA,STEPHANIE YVETTE", "HUAMANI NEYRA,EBELIN AMARELIS", "ZEGARRA BUSTAMANTE,JOSE LUIS", "VALDEZ ROJAS,VENUS MELINA", "GUTIERREZ BLANCO,IOSVANY"],
+    "Equipo 3": ["SANCHEZ YUCRA CESAR IVAN", "RAMIREZ FLORES,CAROL MISHELL", "PALOMINO CHAVEZ,FLEQUER YHON", "ROBLES VÁSQUEZ,JIMMY GARY", "HERRERA PALOMINO,ELIAS ANTONIO", "BROUSSET CORNEJO,JULYANS GIUSEPPE"],
+"Equipo 4": ["FFERNANDEZ RODRIGUEZ,KEVIN HENRY", "BLACIDO ESPINOZA,LEONARDO HERNANDO", "BONILLA CABANA,JEFERSON MANUEL", "CHAMORRO LOZANO,DAVIS DAVID", "AGUILAR INGRID"]
 }
 
 # --- FUNCIONES DE API ---
@@ -40,7 +41,7 @@ def obtener_evaluaciones():
 # ==========================================
 st.set_page_config(page_title="Sistema de Coevaluación", page_icon="🎓", layout="centered")
 
-st.title("🎓 Coevaluación - Business Intelligence & Business Analytics")
+st.title("🎓 Coevaluación - Preparación y Respuesta a Emergencia")
 st.markdown("Plataforma segura para la evaluación de desempeño en equipos.")
 
 modo = st.sidebar.radio("Navegación", ["👨‍🎓 Modo Estudiante", "👨‍🏫 Panel Docente"])
