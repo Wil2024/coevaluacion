@@ -97,7 +97,7 @@ if modo == "👨‍🎓 Modo Estudiante":
                     for nombre in integrantes:
                         notas[nombre] = st.slider(f"🌟 Desempeño de {nombre}", min_value=0.0, max_value=20.0, value=0.5, step=0.5)
                     
-                    st.markdown("*(Recuerda que debes evaluarte a ti mismo con honestidad)*")
+                    st.markdown("*(Recuerda que debes evaluarte a ti mismo también con honestidad)*")
                     
                     # Botón de envío nativo del formulario
                     submitted = st.form_submit_button("🚀 Enviar Calificaciones Oficiales", use_container_width=True)
