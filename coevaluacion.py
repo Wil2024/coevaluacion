@@ -9,7 +9,7 @@ SHEETDB_API_URL = "https://sheetdb.io/api/v1/vehoumph81svs"
 CLAVE_DOCENTE = "docentejwts123"
 
 equipos_estudiantes = {
-    "Equipo 1": ["Aldana Gamboa, Oscar Eduardo", "Castañeda Villanueva, Diana Leticia", "acedo Cayo, Roni Clinton", "More Castillo, Dora Elizabeth Margarita", "Quispe Llempen, Victor Hugo"],
+    "Equipo 1": ["Aldana Gamboa, Oscar Eduardo", "Castañeda Villanueva, Diana Leticia", "Macedo Cayo, Roni Clinton", "More Castillo, Dora Elizabeth Margarita", "Quispe Llempen, Victor Hugo"],
     "Equipo 2": ["Delgado Luna, Luis Alberto", "Flores Trujillo, Banesa Mariluz", "Guevara Burga, Rosmel Gleder", "Palomino Arroyo, Jean Pierre Elias", "Pariona Sulca, Jhon Wilmer"],
     "Equipo 3": ["Fernández Pérez, Iván", "Flores Cusacani, Félix Misael", "Misayauri Castro, Bady Richard", "Padilla Cortez, Luis Guillermo", "Rojas Bardales, Roxana Josseth"],
     "Equipo 4": ["Aranda Retamozo, Walter Alonso Bryan", "Chacaliaza Valenzuela, José Martin", "Chamorro Pacheco, Doris Lizeth", "Pinedo Satalaya, Jeoffrey Gabriel"]
